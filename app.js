@@ -4,7 +4,7 @@ import cors from "cors"
 const app = express();
 
 let users = [];
-let tweets = [];
+let allTweets = [];
 
 app.use(express.urlencoded({
     extended: true,
@@ -32,27 +32,25 @@ app.post("/tweets", (req, res)=>{
         tweet,
     }
 
-    tweets.push(dataTweet);
+    allTweets.push(dataTweet);
 
     res.statusMessage = "OK"
     res.status(200).end();
 });
 
 app.get("/tweets", (req, res)=>{
-    // let stop = 0;
-    // let newTweets = []
-    // for (let i = tweets.length; i >= 0; i--) {
-    //     if (stop >=10) {
-    //         return;
-    //     }else{
-    //         newTweets.push(tweets[i]);
-    //     }
-    //     stop++; 
-    // }
+    let tweets = [];
+    for (let i = allTweets.length-1; i >= 0; i--) {
+        tweets.push(allTweets[i]);
+        if (tweets.length>10) {
+            tweets.pop();
+        }
+    }
+
+    console.log(tweets)
     res.send(tweets);
-    // console.log(newTweets);
 })
 
-app.listen(5001, ()=>{
-    console.log("Oia o bixão ligado na porta 5001")
+app.listen(5000, ()=>{
+    console.log("Servidor on-fire na porta 5000");
 });
